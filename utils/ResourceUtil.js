@@ -30,7 +30,7 @@ async function addResource(req, res) {
         } else {
             const newResource = new Resource(name, location, description, owner);
             const updatedResources = await writeJSON(newResource,
-'utils/resources.json');
+                'utils/resources.json');
             return res.status(201).json(updatedResources);
         }
     } catch (error) {
@@ -38,6 +38,15 @@ async function addResource(req, res) {
     }
 }
 
+async function viewResources(req, res) {
+    try {
+        const allResources = await readJSON('utils/resources.json');
+        return res.status(201).json(allResources);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
-    readJSON, writeJSON, addResource
+    readJSON, writeJSON, addResource, viewResources
 };
