@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
+<body onload="viewResources()">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <img src="images/logo.png" alt="Logo">
@@ -29,6 +29,27 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal">
                     Add Resource
                 </button>
+            </div>
+        </div>
+
+        <!-- Resource Table -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-12">
+                <table class="table table-striped table-striped-custom">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Description</th>
+                            <th>Owner</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableContent">
+                        <!-- Dynamically populated rows will appear here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -72,18 +93,51 @@
         </div>
     </div>
 
-    <!-- Example JavaScript Function for Adding Resource -->
+    <!-- JavaScript Logic -->
     <script>
+        // Sample data (replace with actual resource data from the server or API)
+        let resources = [
+            { id: 1, name: "Resource A", location: "Location A", description: "Description A", owner: "Owner A" },
+            { id: 2, name: "Resource B", location: "Location B", description: "Description B", owner: "Owner B" }
+        ];
+
+        // Function to display resources in the table
+        function viewResources() {
+            let tableContent = '';
+            resources.forEach(resource => {
+                tableContent += `
+                    <tr>
+                        <td>${resource.id}</td>
+                        <td>${resource.name}</td>
+                        <td>${resource.location}</td>
+                        <td>${resource.description}</td>
+                        <td>${resource.owner}</td>
+                        <td> <button type="button" class="btn btn-warning" onclick="editResource(\'' + JSON.stringify(response[i]).replaceAll('\"', '&quot;') + '\')">Edit </button> <button class="btn btn-sm btn-danger" onclick="deleteResource(${resource.id})">Delete</button></td>
+                    </tr>
+                `;
+            });
+            document.getElementById('tableContent').innerHTML = tableContent;
+        }
+
+        // Function to add a new resource
         function addResource() {
             const name = $('#name').val();
             const location = $('#location').val();
             const description = $('#description').val();
             const owner = $('#owner').val();
 
-            // Example validation logic
             if (name && location && description && owner) {
+                const newResource = {
+                    id: resources.length + 1,
+                    name,
+                    location,
+                    description,
+                    owner
+                };
+                resources.push(newResource);
+                viewResources();
+                $('#resourceModal').modal('hide');
                 $('#message').text('Resource added successfully!').addClass('text-success');
-                // Here, you can add code to submit the form data to the backend
             } else {
                 $('#message').text('Please fill out all fields.').addClass('text-danger');
             }
