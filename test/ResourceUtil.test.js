@@ -71,10 +71,7 @@ describe('Resource API', () => {
         it('should update an existing resource', (done) => {
             chai.request(baseUrl)
                 .put(`/edit-resource/${resourceId}`)
-                .send({
-                    name: 'Updated Resource', location: 'Updated Location',
-                        description: 'Updated description'
-                })
+                .send({ name: 'Updated Resource', location: 'Updated Location', description: 'Updated description'})
                 .end((err, res) => {
                     expect(res).to.have.status(201);
                     expect(res.body.message).to.equal('Resource modified successfully!');
