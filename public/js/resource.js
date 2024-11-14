@@ -41,8 +41,7 @@ function editResource(data) {
     document.getElementById("editLocation").value = selectedResource.location;
     document.getElementById("editDescription").value = selectedResource.description;
     document.getElementById("editOwner").value = selectedResource.owner;
-    document.getElementById("updateButton").setAttribute("onclick", 'updateResource("' +
-        selectedResource.id + '")');
+    document.getElementById("updateButton").setAttribute("onclick", 'updateResource("' + selectedResource.id + '")');
     $('#editResourceModal').modal('show');
 }
 function updateResource(id) {
@@ -65,8 +64,7 @@ function updateResource(id) {
     request.onload = function () {
         response = JSON.parse(request.responseText);
         if (response.message == "Resource modified successfully!") {
-            document.getElementById("editMessage").innerHTML = 'Edited Resource: ' +
-                jsonData.name + '!';
+            document.getElementById("editMessage").innerHTML = 'Edited Resource: ' + jsonData.name + '!';
             document.getElementById("editMessage").setAttribute("class",
                 "text-success");
             window.location.href = 'index.html';
