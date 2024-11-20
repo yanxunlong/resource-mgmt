@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVOPS - Resource Management Web App</title>
+
+    <!-- jQuery full version -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Your JS and CSS files -->
+    <script src="js/resource.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body onload="viewResources()">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <img src="images/logo.png" alt="Logo">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal">
+                    Add Resource
+                </button>
+            </div>
+        </div>
+
+        <!-- Resource Table -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-12">
+                <table class="table table-striped table-striped-custom">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Description</th>
+                            <th>Owner</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableContent">
+                        <!-- Dynamically populated rows will appear here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="resourceModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resourceModalLabel">Add New Resource</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="resourceForm">
+                        <div class="form-group">
+                            <label for="name">Resource Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter resource name">
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" class="form-control" id="location" placeholder="Enter resource location">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description"
+                                placeholder="Enter short description">
+                        </div>
+                        <div class="form-group">
+                            <label for="owner">Owner</label>
+                            <input type="text" class="form-control" id="owner" placeholder="Enter resource owner">
+                        </div>
+                        <p align="right" id="message" class=""></p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addResource()">Add New Resource</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editResourceModal" tabindex="-1" role="dialog" aria-labelledby="editResourceModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editResourceModalLabel">Edit Resource</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="editName">Resource Name</label>
+                            <input type="text" class="form-control" id="editName" placeholder="Enter resource name">
+                        </div>
+                        <div class="form-group">
+                            <label for="editLocation">Location</label>
+                            <input type="text" class="form-control" id="editLocation"
+                                placeholder="Enter resource location">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDescription">Description</label>
+                            <input type="text" class="form-control" id="editDescription"
+                                placeholder="Enter short description">
+                        </div>
+                        <div class="form-group">
+                            <label for="editOwner">Owner</label>
+                            <input type="text" class="form-control" id="editOwner" placeholder="Enter resource owner">
+                        </div>
+                        <p align="right" id="editMessage" class=""></p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updateResource()">Update Resource</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editResourceModal" tabindex="-1" role="dialog" aria- labelledby="editResourceModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editResourceModalLabel">Edit Resource</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Resource Name</label>
+                            <input type="text" class="form-control" id="editName" placeholder="Enter resource name">
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" class="form-control" id="editLocation" placeholder="Enter resource location">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="editDescription" placeholder="Enter short description">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Owner</label>
+                            <input type="text" class="form-control" id="editOwner" placeholder="Enter resource owner">
+                        </div>
+                        <p align="right" id="editMessage" class=""></p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="updateButton" onclick="">Update
+                        Resource</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Sample data (replace with actual resource data from the server or API)
+        let resources = [
+            { id: 1, name: "Resource A", location: "Location A", description: "Description A", owner: "Owner A" },
+            { id: 2, name: "Resource B", location: "Location B", description: "Description B", owner: "Owner B" }
+        ];
+
+        // Function to display resources in the table
+        function viewResources() {
+            let tableContent = '';
+            resources.forEach(resource => {
+                tableContent += `
+                    <tr>
+                        <td>${resource.id}</td>
+                        <td>${resource.name}</td>
+                        <td>${resource.location}</td>
+                        <td>${resource.description}</td>
+                        <td>${resource.owner}</td>
+                        <td> <button type="button" class="btn btn-warning" onclick="editResource(\'' + JSON.stringify(response[i]).replaceAll('\"', '&quot;') + '\')">Edit </button> <button class="btn btn-sm btn-danger" onclick="deleteResource(${resource.id})">Delete</button></td>
+                    </tr>
+                `;
+            });
+            document.getElementById('tableContent').innerHTML = tableContent;
+        }
+
+        // Function to add a new resource
+        function addResource() {
+            const name = $('#name').val();
+            const location = $('#location').val();
+            const description = $('#description').val();
+            const owner = $('#owner').val();
+
+            if (name && location && description && owner) {
+                const newResource = {
+                    id: resources.length + 1,
+                    name,
+                    location,
+                    description,
+                    owner
+                };
+                resources.push(newResource);
+                viewResources();
+                $('#resourceModal').modal('hide');
+                $('#message').text('Resource added successfully!').addClass('text-success');
+            } else {
+                $('#message').text('Please fill out all fields.').addClass('text-danger');
+            }
+        }
+    </script>
+</body>
+
+</html>
