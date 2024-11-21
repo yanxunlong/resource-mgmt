@@ -1,3 +1,36 @@
+function viewResources() {
+    var response = '';
+    var request = new XMLHttpRequest();
+
+    request.open('GET', '/view-resources', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () {
+        response = JSON.parse(request.responseText);
+        var html = '';
+
+        for (var i = 0; i < response.length; i++) {
+            html += '<tr>' +
+                '<td>' + (i + 1) + '</td>' +
+                '<td>' + response[i].name + '</td>' +
+                '<td>' + response[i].location + '</td>' +
+                '<td>' + response[i].description + '</td>' +
+                '<td>' + response[i].owner + '</td>' +
+                '<td>' +
+                '<button type="button" class="btn btn-warning" ' +
+                'onclick="editResource(\'' + JSON.stringify(response[i]).replaceAll('\"', '&quot;') + '\')">Edit</button> ' +
+                '<button type="button" class="btn btn-danger" ' +
+                'onclick="deleteResource(' + response[i].id + ')">Delete</button>' +
+                '</td>' +
+                '</tr>';
+        }
+
+        document.getElementById('tableContent').innerHTML = html;
+    };
+
+    request.send();
+}
+
 function addResource() {
     var response = "";
     var jsonData = new Object();
@@ -37,13 +70,16 @@ function addResource() {
 
 function editResource(data) {
     var selectedResource = JSON.parse(data);
+    console.log("test", selectedResource)
     document.getElementById("editName").value = selectedResource.name;
     document.getElementById("editLocation").value = selectedResource.location;
     document.getElementById("editDescription").value = selectedResource.description;
     document.getElementById("editOwner").value = selectedResource.owner;
+    console.log(selectedResource.id)
     document.getElementById("updateButton").setAttribute("onclick", 'updateResource("' + selectedResource.id + '")');
     $('#editResourceModal').modal('show');
 }
+
 function updateResource(id) {
     console.log(id)
     var response = "";

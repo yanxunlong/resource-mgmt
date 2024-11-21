@@ -14,7 +14,8 @@
 
     <!-- Your JS and CSS files -->
     <script src="js/resource.js"></script>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
 </head>
 
 <body onload="viewResources()">
@@ -84,7 +85,7 @@
                             <label for="owner">Owner</label>
                             <input type="text" class="form-control" id="owner" placeholder="Enter resource owner">
                         </div>
-                        <p align="right" id="message" class=""></p>
+                        <p align ="right" id="message" class=""></p>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -130,7 +131,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="updateResource()">Update Resource</button>
+                    <button type="button" class="btn btn-primary" id="updateButton" onclick="">Update Resource</button>
                 </div>
             </div>
         </div>
@@ -168,64 +169,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="updateButton" onclick="">Update
-                        Resource</button>
+                    <button type="button" class="btn btn-primary" id="updateButton" onclick="">Update Resource</button>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <!-- JavaScript Logic -->
-    <script>
-        // Sample data (replace with actual resource data from the server or API)
-        let resources = [
-            { id: 1, name: "Resource A", location: "Location A", description: "Description A", owner: "Owner A" },
-            { id: 2, name: "Resource B", location: "Location B", description: "Description B", owner: "Owner B" }
-        ];
-
-        // Function to display resources in the table
-        function viewResources() {
-            let tableContent = '';
-            resources.forEach(resource => {
-                tableContent += `
-                    <tr>
-                        <td>${resource.id}</td>
-                        <td>${resource.name}</td>
-                        <td>${resource.location}</td>
-                        <td>${resource.description}</td>
-                        <td>${resource.owner}</td>
-                        <td> <button type="button" class="btn btn-warning" onclick="editResource(\'' + JSON.stringify(response[i]).replaceAll('\"', '&quot;') + '\')">Edit </button> <button class="btn btn-sm btn-danger" onclick="deleteResource(${resource.id})">Delete</button></td>
-                    </tr>
-                `;
-            });
-            document.getElementById('tableContent').innerHTML = tableContent;
-        }
-
-        // Function to add a new resource
-        function addResource() {
-            const name = $('#name').val();
-            const location = $('#location').val();
-            const description = $('#description').val();
-            const owner = $('#owner').val();
-
-            if (name && location && description && owner) {
-                const newResource = {
-                    id: resources.length + 1,
-                    name,
-                    location,
-                    description,
-                    owner
-                };
-                resources.push(newResource);
-                viewResources();
-                $('#resourceModal').modal('hide');
-                $('#message').text('Resource added successfully!').addClass('text-success');
-            } else {
-                $('#message').text('Please fill out all fields.').addClass('text-danger');
-            }
-        }
-    </script>
 </body>
 
 </html>
